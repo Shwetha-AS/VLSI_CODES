@@ -1,0 +1,43 @@
+module tb_single_port_ram;
+    parameter width = 16;
+    reg clk,rst,cs,we,oe;
+    reg [width-1:0] addr;
+    reg [7:0] data_driver;  
+    wire [7:0] data;        
+    wire[7:0] out;
+    assign data = (we && cs) ? data_driver : 9'bz;
+    single_port_ram #(width) dut (
+        .clk(clk),
+        .rst(rst),
+        .addr(addr),
+        .cs(cs),
+        .we(we),
+        .oe(oe),
+        .data(data),
+        .out(out)
+    );
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; 
+    end
+    initial begin
+        rst = 1; cs = 1; #10;
+        rst = 0; #10;
+        addr = 16'h0010;#10;
+        data_driver = 9'h1A;
+        we = 1; cs = 1; #10;
+        we = 0;#10;
+        oe = 1; #10;
+        $display("Time: %t | Addr: %h | Read Data: %h", $time, addr, out);
+        oe = 0;
+        addr = 16'h0020;
+        data_driver = 9'h2B;
+        we = 1; #10;
+        we = 0;
+        addr = 16'h0020;
+        oe = 1; #10;
+        $display("Time: %t | Addr: %h | Read Data: %h", $time, addr, out);
+        oe = 0;
+    end
+endmodule
+
