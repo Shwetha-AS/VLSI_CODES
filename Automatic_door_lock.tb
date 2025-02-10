@@ -1,0 +1,23 @@
+module automatic_door_lock_tb();
+reg clk,rst,sensor_input;
+wire door;
+automatic_door_lock dut (clk,rst,sensor_input,door);
+initial begin
+clk=0;
+forever #5 clk=~clk;
+end
+initial begin
+#10 rst=1;
+#10 sensor_input=0;
+#10 rst=0;
+#10 sensor_input=1;
+#10 sensor_input=0;
+#10 sensor_input=0;
+#10 sensor_input=1;
+#10 sensor_input=0;
+#10 sensor_input=1;
+#10 sensor_input=0;
+#10 sensor_input=1;
+#10 sensor_input=0;
+end
+endmodule
