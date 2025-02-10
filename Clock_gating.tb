@@ -1,0 +1,13 @@
+module clock_gating_using_dual_latch_tb();
+reg enb,clk;
+wire out;
+clock_gating_using_dual_latch dut(.enb(enb),.clk(clk),.out(out));
+initial begin
+enb =1;
+#60 enb=1;
+#30 enb=0; end
+initial begin
+clk=0;
+forever #5 clk=~clk;
+end
+endmodule
