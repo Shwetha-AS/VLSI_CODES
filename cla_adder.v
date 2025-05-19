@@ -1,0 +1,20 @@
+module cla_adder(A,B,Carry_in,Sum,Carry_out);
+input [1:0]A;
+input [1:0]B;
+input Carry_in;
+output wire [1:0]Sum;
+output wire Carry_out;
+wire [1:0] P;
+wire [1:0] G;
+wire [2:0] C;
+assign C[0]=Carry_in;
+assign P[0]=A[0]^B[0];
+assign P[1]=A[1]^B[1];
+assign G[0]=A[0]&B[0];
+assign G[1]=A[1]&B[1];
+assign C[1]=G[0]|(P[0]&C[0]);
+assign C[2]=G[1]|(P[1]&C[1]);
+assign Sum[0]=P[0]^C[0];
+assign Sum[1]=P[1]^C[1];
+assign Carry_out=C[2];
+endmodule
